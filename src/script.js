@@ -5,34 +5,36 @@ import { useUserZodiac } from './UserZodiacContext';
 const clientId = "251541bae2654bf099c6853ab90e4c4a";
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
+var accessToken = ""
+var topTracksIds = ""
 
-const ZodiacAudioFeatures = {
-    Aries: "&min_danceability=0.7&min_energy=0.7&target_tempo=130&min_valence=0.7",
-    Taurus: "&target_acousticness=0.5&max_energy=0.6&min_valence=0.45",
-    Gemini: "&min_danceability=0.7&min_energy=0.45&min_speechiness=0.7",
-    Cancer: "&min_acousticness=0.7&min_valence=0.45&max_liveness=0.55",
-    Leo: "&min_energy=0.7&min_loudness=0.7&min_valence=0.7",
-    Virgo: "&min_instrumentalness=0.7&max_valence=0.55&target_tempo=100",
-    Libra: "&min_valence=0.7&target_tempo=110&min_liveness=0.7",
-    Scorpio: "&max_acousticness=0.55&min_energy=0.7&max_valence=0.7",
-    Sagittarius: "&min_danceability=0.7&min_energy=0.7&target_tempo=130",
-    Capricorn: "&min_instrumentalness=0.7&max_energy=0.55&max_valence=0.55",
-    Aquarius: "&min_danceability=0.7&target_energy=0.5&min_speechiness=0.7",
-    Pisces: "&min_acousticness=0.7&max_valence=0.55&min_liveness=0.25&target_liveness=0.6"
+export const ZodiacAudioFeatures = {
+    aries: "&min_danceability=0.7&min_energy=0.7&target_tempo=130&min_valence=0.7",
+    taurus: "&target_acousticness=0.5&max_energy=0.6&min_valence=0.45",
+    gemini: "&min_danceability=0.7&min_energy=0.45&min_speechiness=0.7",
+    cancer: "&min_acousticness=0.7&min_valence=0.45&max_liveness=0.55",
+    leo: "&min_energy=0.7&min_loudness=0.7&min_valence=0.7",
+    virgo: "&min_instrumentalness=0.7&max_valence=0.55&target_tempo=100",
+    libra: "&min_valence=0.7&target_tempo=110&min_liveness=0.7",
+    scorpio: "&max_acousticness=0.55&min_energy=0.7&max_valence=0.7",
+    sagittarius: "&min_danceability=0.7&min_energy=0.7&target_tempo=130",
+    capricorn: "&min_instrumentalness=0.7&max_energy=0.55&max_valence=0.55",
+    aquarius: "&min_danceability=0.7&target_energy=0.5&min_speechiness=0.7",
+    pisces: "&min_acousticness=0.7&max_valence=0.55&min_liveness=0.25&target_liveness=0.6"
 }
 
 
 if (!code) {
     redirectToAuthCodeFlow(clientId);
 } else {
-    const accessToken = await getAccessToken(clientId, code);
+    accessToken = await getAccessToken(clientId, code);
     const profile = await fetchProfile(accessToken);
     console.log(profile);
     
 
     // Call getTopTracks with accessToken and store the result in topTracks
     const topTracks = await getTopTracks(accessToken);
-    const topTracksIds = [
+    topTracksIds = [
         topTracks[0].id, topTracks[1].id, topTracks[2].id, topTracks[3].id, topTracks[4].id
       ];
     const topsongs = 
@@ -41,7 +43,7 @@ if (!code) {
                 `${name} by ${artists.map(artist => artist.name).join(', ')}`
         );
         //populateUI(profile, topsongs);
-    const recommendedTracks = await getRecommendations(topTracksIds, accessToken, ZodiacAudioFeatures.Aries);
+    const recommendedTracks = await getRecommendations(ZodiacAudioFeatures.Aries);
     const recommendedTracksList = 
           recommendedTracks?.map(
             ({name, artists}) =>
@@ -70,7 +72,7 @@ async function getTopTracks(accessToken) {
     )).items;
 }
 
-async function getRecommendations(topTracksIds, accessToken, zodiacfeature){
+export async function getRecommendations(zodiacfeature){
     // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-recommendations
     return (await fetchWebApi(
       `v1/recommendations?market=US&limit=5&seed_tracks=${topTracksIds.join(',')}${zodiacfeature}`, 'GET', accessToken

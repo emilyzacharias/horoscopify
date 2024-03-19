@@ -3,6 +3,47 @@ import './App.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useUserZodiac } from './UserZodiacContext';
+import { getRecommendations, ZodiacAudioFeatures } from './script.js'
+
+export var results = "";
+
+async function fetchRecommendedTracks(AudioFeature) {
+    try {
+        // Call the getRecommendations function and await its result
+       const recommendedTracks = await getRecommendations(AudioFeature);
+
+        // Log the result
+        const recommendedTracksList = 
+          recommendedTracks?.map(
+            ({name, artists}) =>
+              `${name} by ${artists.map(artist => artist.name).join(', ')}`
+          );
+        results = recommendedTracksList;
+        console.log(recommendedTracksList);
+    } catch (error) {
+        // Handle any errors
+        console.error("Error fetching recommended tracks:", error);
+    }
+}
+
+function getAudioFeature(zodiac) {
+    const zodiacAudioFeatures = {
+        aries: ZodiacAudioFeatures.aries,
+        taurus: ZodiacAudioFeatures.taurus,
+        gemini: ZodiacAudioFeatures.gemini,
+        cancer: ZodiacAudioFeatures.cancer,
+        leo: ZodiacAudioFeatures.leo,
+        virgo: ZodiacAudioFeatures.virgo,
+        libra: ZodiacAudioFeatures.libra,
+        scorpio: ZodiacAudioFeatures.scorpio,
+        sagittarius: ZodiacAudioFeatures.sagittarius,
+        capricorn: ZodiacAudioFeatures.capricorn,
+        aquarius: ZodiacAudioFeatures.aquarius,
+        pisces: ZodiacAudioFeatures.pisces
+    };
+
+    return zodiacAudioFeatures[zodiac];
+}
 
 
 function ChooseZodiac() {
@@ -17,9 +58,10 @@ function ChooseZodiac() {
     // Function to handle the click event of the continue button
     const handleContinueButtonClick = () => {
         if (userZodiac == null) {
-            setUserZodiac("Aries");
+            setUserZodiac("aries");
         }
-        // Here you can save the selectedOption to a database or pass it to another component
+        console.log(userZodiac);
+        fetchRecommendedTracks(getAudioFeature(userZodiac));
         console.log('Selected zodiac:', userZodiac);
     };
 
