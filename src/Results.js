@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { results } from './ChooseZodiac'
+import { results, zodiac } from './ChooseZodiac'
 
 function Results() {
 
@@ -13,8 +13,8 @@ function Results() {
       </header>
       <body className="App-body">
         <h1>Results</h1>
-        <p>Top songs: <span id="topsongs"></span></p>
-        <p>{results}</p>
+        <p>Recommended {zodiac} Songs: <span id="topsongs"></span></p>
+        
       </body>
       <footer>
         <p>created by my name | &copy; 2024 | about | policy</p>

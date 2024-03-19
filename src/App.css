@@ -14,7 +14,7 @@
 }
 
 .App-body {
-  background-color: #282c34;
+  background-color: #090428;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +35,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.zodiac-buttons button {
+  border: 2px solid;
+  border-color: #6AD0E6;
+  margin: 5px;
+  background-color: transparent;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.zodiac-buttons .selected{
+  background-color: #6AD0E6; /* Change to the desired color */
+  color: #ffffff;
 }

@@ -1,12 +1,10 @@
-import { useState } from 'react';
-import { useUserZodiac } from './UserZodiacContext';
-
-
 const clientId = "251541bae2654bf099c6853ab90e4c4a";
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 var accessToken = ""
 var topTracksIds = ""
+const MAX_RETRIES = 3
+const BASE_DELAY = 400 //in milliseconds
 
 export const ZodiacAudioFeatures = {
     aries: "&min_danceability=0.7&min_energy=0.7&target_tempo=130&min_valence=0.7",
@@ -37,20 +35,21 @@ if (!code) {
     topTracksIds = [
         topTracks[0].id, topTracks[1].id, topTracks[2].id, topTracks[3].id, topTracks[4].id
       ];
+    console.log("running this code.");
     const topsongs = 
         topTracks?.map(
             ({ name, artists }) =>
                 `${name} by ${artists.map(artist => artist.name).join(', ')}`
         );
         //populateUI(profile, topsongs);
-    const recommendedTracks = await getRecommendations(ZodiacAudioFeatures.Aries);
+    /*const recommendedTracks = await getRecommendations(ZodiacAudioFeatures.Aries);
     const recommendedTracksList = 
           recommendedTracks?.map(
             ({name, artists}) =>
               `${name} by ${artists.map(artist => artist.name).join(', ')}`
-          );
+          ); */
     console.log(topsongs);
-    console.log(recommendedTracksList);
+    //console.log(recommendedTracksList);
 }
 
 
@@ -65,16 +64,45 @@ async function fetchWebApi(endpoint, method, accessToken) {
     return await res.json();
 }
 
+async function fetchWebApiWithRetry(endpoint, method, accessToken, retryCount = 0) {
+    try {
+        const res = await fetch(`https://api.spotify.com/${endpoint}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            method
+        });
+
+        if (res.status === 429) {
+            // Handle rate limiting, possibly by waiting and retrying
+            throw new Error('Rate limit exceeded');
+        }
+
+        return await res.json();
+    } catch (error) {
+        if (retryCount < MAX_RETRIES) {
+            const delay = Math.pow(2, retryCount) * BASE_DELAY;
+            await new Promise(resolve => setTimeout(resolve, delay));
+            return fetchWebApiWithRetry(endpoint, method, accessToken, retryCount + 1);
+        } else {
+            throw error;
+        }
+    }
+}
+
+
 
 async function getTopTracks(accessToken) {
-    return (await fetchWebApi(
-        'v1/me/top/tracks?time_range=medium_term&limit=20', 'GET', accessToken
+    return (await fetchWebApiWithRetry(
+        'v1/me/top/tracks?time_range=medium_term&limit=5', 'GET', accessToken
     )).items;
 }
 
 export async function getRecommendations(zodiacfeature){
     // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-recommendations
-    return (await fetchWebApi(
+    console.log("running get recs.");
+    return (await fetchWebApiWithRetry(
       `v1/recommendations?market=US&limit=5&seed_tracks=${topTracksIds.join(',')}${zodiacfeature}`, 'GET', accessToken
     )).tracks;
   }
