@@ -89,10 +89,11 @@ function ChooseZodiac() {
         <Link to="/results"><button onClick={handleContinueButtonClick}>Continue</button></Link>
     </body>
     <footer>
-        <p>created by Emily Zacharias | &copy; 2024 | about | policy</p>
+        <p>created by my name | &copy; 2024 | about | policy</p>
     </footer>
     </div>
   );
+
 }
 
 export default ChooseZodiac;

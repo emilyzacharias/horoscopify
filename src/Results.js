@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { results } from './ChooseZodiac'
 
 function Results() {
+
   return (
     <div className="Results">
       <header className="App-header">
@@ -16,7 +17,7 @@ function Results() {
         <p>{results}</p>
       </body>
       <footer>
-        <p>created by name | &copy; 2024 | about | policy</p>
+        <p>created by my name | &copy; 2024 | about | policy</p>
       </footer>
     </div>
   );
