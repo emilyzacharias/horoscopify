@@ -95,7 +95,7 @@ async function fetchWebApiWithRetry(endpoint, method, accessToken, retryCount = 
 
 async function getTopTracks(accessToken) {
     return (await fetchWebApiWithRetry(
-        'v1/me/top/tracks?time_range=medium_term&limit=5', 'GET', accessToken
+        'v1/me/top/tracks?time_range=medium_term&limit=15', 'GET', accessToken
     )).items;
 }
 

@@ -2,7 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { results, zodiac } from './ChooseZodiac'
+import { selectedZodiac, zodiac } from './ChooseZodiac'
+import GradientBackground from './GradientBackground';
 
 function Results() {
 
@@ -12,13 +13,15 @@ function Results() {
         
       </header>
       <body className="App-body">
-        <h1>Results</h1>
+        <h2>Results</h2>
         <p>Recommended {zodiac} Songs: <span id="topsongs"></span></p>
-        
+        <div className="gradient-background">
+            <GradientBackground/>
+        </div>
       </body>
-      <footer>
-        <p>created by my name | &copy; 2024 | about | policy</p>
-      </footer>
+      <footer className='app-footer'>
+        <p>created by Emily Zacharias | &copy; 2024 | about | policy</p>
+    </footer>
     </div>
   );
 }
