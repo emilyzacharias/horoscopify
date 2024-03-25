@@ -1,10 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUserZodiac } from './UserZodiacContext';
-import { getRecommendations, ZodiacAudioFeatures } from './script.js'
 import GradientBackground from './GradientBackground';
+import {profile} from './script';
 import aquarius from './SVG/Aquarius.svg';
 import aries from './SVG/Aries.svg';
 import cancer from './SVG/Cancer.svg';
@@ -19,59 +19,43 @@ import scorpio from './SVG/Scorpio.svg';
 import virgo from './SVG/Virgo.svg';
 import star1 from './SVG/star1.svg';
 import star2 from './SVG/star2.svg';
+import spotifylogo from './spotifylogo.png';
 
-export var results = "";
 export var zodiac = "";
 
-
-
-async function fetchRecommendedTracks(AudioFeature) {
-    try {
-        // Call the getRecommendations function and await its result
-       const recommendedTracks = await getRecommendations(AudioFeature);
-        //const recommendedTracks = ""
-        // Log the result
-        const recommendedTracksList = 
-          recommendedTracks?.map(
-            ({name, artists}) =>
-              `${name} by ${artists.map(artist => artist.name).join(', ')}`
-          );
-        results = recommendedTracksList;
-        console.log(recommendedTracksList);
-        //document.getElementById("topSongs").innerText = recommendedTracksList
-    } catch (error) {
-        // Handle any errors
-        console.error("Error fetching recommended tracks:", error);
-    }
-}
-
-function getAudioFeature(zodiac) {
-    const zodiacAudioFeatures = {
-        aries: ZodiacAudioFeatures.aries,
-        taurus: ZodiacAudioFeatures.taurus,
-        gemini: ZodiacAudioFeatures.gemini,
-        cancer: ZodiacAudioFeatures.cancer,
-        leo: ZodiacAudioFeatures.leo,
-        virgo: ZodiacAudioFeatures.virgo,
-        libra: ZodiacAudioFeatures.libra,
-        scorpio: ZodiacAudioFeatures.scorpio,
-        sagittarius: ZodiacAudioFeatures.sagittarius,
-        capricorn: ZodiacAudioFeatures.capricorn,
-        aquarius: ZodiacAudioFeatures.aquarius,
-        pisces: ZodiacAudioFeatures.pisces
-    };
-
-    return zodiacAudioFeatures[zodiac];
-}
-
-
 function ChooseZodiac() {
+
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (profile == "false") {
+                console.log("profile is false");
+                navigate('/loginfail');
+            }
+        }, 0);
+      
+        // Clear the timer when the component unmounts or before the effect runs again
+        return () => clearTimeout(timer);
+      }, []);
+
+    
 
     const [selectedZodiac, setSelectedZodiac] = useState(null);
 
     const handleZodiacClick = (zodiac) => {
         setSelectedZodiac(zodiac);
         setUserZodiac(selectedZodiac);
+        const windowHeight = window.innerHeight;
+        const scrollHeight = document.documentElement.scrollHeight;
+
+        const targetScrollPosition = scrollHeight - windowHeight - 170;
+
+        window.scrollTo({
+            top: targetScrollPosition,
+            behavior: 'smooth'
+        });
     };
 
     // State variable to hold the selected value from the dropdown
@@ -81,9 +65,18 @@ function ChooseZodiac() {
     const handleContinueButtonClick = () => {
         //userZodiac = zodiac;
         setUserZodiac(selectedZodiac);
+
+        console.log(selectedZodiac);
+        console.log(userZodiac);
         
-        fetchRecommendedTracks(getAudioFeature(selectedZodiac));
+
+        zodiac = selectedZodiac;
+
+        if (zodiac == null) {
+            zodiac = "aries"
+        }
         console.log('Selected zodiac:', selectedZodiac);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     return (
@@ -103,6 +96,10 @@ function ChooseZodiac() {
                       <img src={star2} id="starsvg8"/>
                       <img src={star1} id="starsvg9"/>
                       <img src={star2} id="starsvg10"/>
+                      <img src={star1} id="starsvg11"/>
+                        <img src={star2} id="starsvg12"/>
+                        <img src={star1} id="starsvg13"/>
+                        <img src={star2} id="starsvg14"/>
                     </div>
             <h2>Select your sign</h2>
             <div className="zodiac-buttons">
@@ -211,9 +208,10 @@ function ChooseZodiac() {
                 <GradientBackground/>
             </div>
         </body>
-        <footer className='app-footer'>
-            <p>created by Emily Zacharias | &copy; 2024 | about | policy</p>
-        </footer>
+        <footer className="app-footer">
+                <p><a href="./">home</a><br/><br/>created by <a href = "https://ezacharias.com" target="_blank">Emily Zacharias</a> | &copy; 2024</p>
+                <img className = "spotifylogo" src = {spotifylogo}></img>
+              </footer>
         </div>
       );
 

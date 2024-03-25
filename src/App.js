@@ -6,21 +6,29 @@ import HomePage from './HomePage';
 import ChooseZodiac from './ChooseZodiac';
 import Results from './Results';
 import Authorize from './Authorize';
+import LoginFail from './Loginfail';
 import { UserZodiacProvider } from './UserZodiacContext';
+import ErrorBoundary from './ErrorBoundary';
+
 
 
 function App() {
   return (
-    <UserZodiacProvider>
-    <Router>
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/ChooseZodiac" element={<ChooseZodiac />} />
-            <Route path="/Results" element={<Results />} />
-            <Route path="/Authorize" element={<Authorize />} />
-        </Routes>
-    </Router>
-    </UserZodiacProvider>
+    
+      <UserZodiacProvider>
+        <Router>
+        <ErrorBoundary>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/ChooseZodiac" element={<ChooseZodiac />} />
+                <Route path="/Results" element={<Results />} />
+                <Route path="/Authorize" element={<Authorize />} />
+                <Route path="/Loginfail" element={<LoginFail />} />
+            </Routes>
+            </ErrorBoundary>
+        </Router>
+      </UserZodiacProvider>
+   
   );
 }
 
