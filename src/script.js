@@ -12,7 +12,9 @@ const BASE_DELAY = 400; //in milliseconds
 export var profile = "";
 var recTracks = "";
 var playlistLink = "";
+var redirectURI = "http://localhost:3003/choosezodiac"
 
+// https://emilyzacharias.github.io/horoscopify/choosezodiac
 
 export const ZodiacAudioFeatures = {
     aries: "&target_danceability=0.9&target_energy=0.9&target_tempo=130&target_valence=0.9",
@@ -55,7 +57,7 @@ if (!code) {
       }
     
     //uses these tracks if user has less than 5 tracks in their top tracks
-    if(topTracksIds.length == 0) {
+    if(topTracksIds.length === 0) {
         topTracksIds.push('46kspZSY3aKmwQe7O77fCC');
         topTracksIds.push('6tNQ70jh4OwmPGpYy6R2o9');
         topTracksIds.push('6tNgRQ0K2NYZ0Rb9l9DzL8');
@@ -167,7 +169,7 @@ async function getTopTracks(accessToken) {
 export async function getRecommendations(zodiacfeature){
     // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-recommendations
     console.log("running get recs.");
-    if (topTracksIds == undefined) {
+    if (topTracksIds === undefined) {
         return "error";
     }
     recommendedTracksURIs = (await fetchWebApiWithRetry(
@@ -191,8 +193,8 @@ export async function redirectToAuthCodeFlow(clientId) {
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
-    params.append("redirect_uri", "http://localhost:3000/choosezodiac");
-    params.append("scope", "ugc-image-upload playlist-modify-public user-read-private user-read-email user-top-read playlist-modify-private");
+    params.append("redirect_uri", redirectURI);
+    params.append("scope", "user-top-read playlist-modify-private");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
 
@@ -226,8 +228,8 @@ export async function getAccessToken(clientId, code) {
     params.append("client_id", clientId);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("scope", "user-top-read playlist-modify-private playlist-modify-public ugc-image-upload");
-    params.append("redirect_uri", "http://localhost:3000/choosezodiac");
+    params.append("scope", "user-top-read playlist-modify-private");
+    params.append("redirect_uri", redirectURI);
     params.append("code_verifier", verifier);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {

@@ -20,6 +20,7 @@ import virgo from './SVG/Virgo.svg';
 import star1 from './SVG/star1.svg';
 import star2 from './SVG/star2.svg';
 import spotifylogo from './spotifylogo.png';
+import ParticlesApp from './particles'
 
 export var zodiac = "";
 
@@ -47,13 +48,9 @@ function ChooseZodiac() {
     const handleZodiacClick = (zodiac) => {
         setSelectedZodiac(zodiac);
         setUserZodiac(selectedZodiac);
-        const windowHeight = window.innerHeight;
-        const scrollHeight = document.documentElement.scrollHeight;
-
-        const targetScrollPosition = scrollHeight - windowHeight - 170;
 
         window.scrollTo({
-            top: targetScrollPosition,
+            top: document.body.scrollHeight,
             behavior: 'smooth'
         });
     };
@@ -84,23 +81,7 @@ function ChooseZodiac() {
         <header className="App-header">
             
         </header>
-        <body className="App-body">
-        <div className="background-stars">
-                      <img src={star1} id="starsvg1"/>
-                      <img src={star2} id="starsvg2"/>
-                      <img src={star1} id="starsvg3"/>
-                      <img src={star2} id="starsvg4"/>
-                      <img src={star1} id="starsvg5"/>
-                      <img src={star2} id="starsvg6"/>
-                      <img src={star1} id="starsvg7"/>
-                      <img src={star2} id="starsvg8"/>
-                      <img src={star1} id="starsvg9"/>
-                      <img src={star2} id="starsvg10"/>
-                      <img src={star1} id="starsvg11"/>
-                        <img src={star2} id="starsvg12"/>
-                        <img src={star1} id="starsvg13"/>
-                        <img src={star2} id="starsvg14"/>
-                    </div>
+        <div className="App-body background-gradient">
             <h2>Select your sign</h2>
             <div className="zodiac-buttons">
                 <button
@@ -204,14 +185,14 @@ function ChooseZodiac() {
             <div className='continuebutton'>
                 <Link to="/results"><button id='Login-button' onClick={handleContinueButtonClick}>Continue</button></Link>
             </div>
-            <div className="gradient-background">
-                <GradientBackground/>
-            </div>
-        </body>
-        <footer className="app-footer">
-                <p><a href="./">home</a><br/><br/>created by <a href = "https://ezacharias.com" target="_blank">Emily Zacharias</a> | &copy; 2024</p>
-                <img className = "spotifylogo" src = {spotifylogo}></img>
-              </footer>
+            <ParticlesApp/>
+
+                <div className="About-footer">
+                  <img className = "spotifylogo" src = {spotifylogo}></img>
+                  <p>Created by Emily Zacharias | &copy; 2024</p>
+                </div>
+        </div>
+        
         </div>
       );
 

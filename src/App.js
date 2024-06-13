@@ -9,6 +9,7 @@ import Authorize from './Authorize';
 import LoginFail from './Loginfail';
 import { UserZodiacProvider } from './UserZodiacContext';
 import ErrorBoundary from './ErrorBoundary';
+import ResultsImage from './ResultsImage';
 
 
 
@@ -16,7 +17,7 @@ function App() {
   return (
     
       <UserZodiacProvider>
-        <Router>
+        <Router basename={'/'}>
         <ErrorBoundary>
             <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/Results" element={<Results />} />
                 <Route path="/Authorize" element={<Authorize />} />
                 <Route path="/Loginfail" element={<LoginFail />} />
+                <Route path="/ResultsImage" element={<ResultsImage />} />
             </Routes>
             </ErrorBoundary>
         </Router>

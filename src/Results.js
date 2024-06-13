@@ -23,6 +23,7 @@ import star2 from './SVG/star2.svg';
 import noise from './SVG/Noise.svg';
 import spotifylogo from './spotifylogo.png';
 import ErrorBoundary from './ErrorBoundary';
+import ParticlesApp from './particles'
 
 
 
@@ -71,6 +72,7 @@ function Results() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      console.log(recommendedTracksList);
       fetchRecommendedTracks(getAudioFeature(zodiac));
     }, 200);
   
@@ -206,26 +208,10 @@ function Results() {
       <header className="App-header">
         
       </header>
-      <body className="App-body">
-    {  <div className="background-stars">
-                <img src={star2} id="starsvg2"/>
-                <img src={star2} id="starsvg4"/>
-                <img src={star1} id="starsvg5"/>
-                <img src={star2} id="starsvg6"/>
-                <img src={star1} id="starsvg7"/>
-                <img src={star2} id="starsvg9"/>
-                <img src={star1} id="starsvg10"/>
-                <img src={star1} id="starsvg11"/>
-                <img src={star2} id="starsvg12"/>
-                <img src={star1} id="starsvg13"/>
-                <img src={star2} id="starsvg14"/>
-                <img src={zodiacImageSrc} id="results-left-constellation" />
-                <img src={zodiacImageSrc} id="results-right-constellation"/>
-                 
-                  
-  </div> }
+      <body className="App-body background-gradient">
+        <img src={zodiacImageSrc} id="results-constellation" />
         <h2 id="results-header">{userName.charAt(0).toUpperCase() + userName.slice(1)}'s {zodiac.charAt(0).toUpperCase() + zodiac.slice(1)} Horoscopify <span id="topsongs"></span></h2>
-        <h5>{getZodiacDescription(zodiac)}</h5>
+        <h5 className="results-title">{getZodiacDescription(zodiac)}</h5>
         <ErrorBoundary>
         <ul id="recommendedsongs">
           {recommendedTracksList.map((result, index) => (
@@ -237,19 +223,17 @@ function Results() {
 
         
           {playlistAdded ? (
-                  <p id="playlist-button"><a href = {playlistLink} target = "_blank">View Playlist</a></p> // Show this text if playlist is added
+                  <p id="Login-button"><a href = {playlistLink} target = "_blank">View Playlist</a></p> // Show this text if playlist is added
               ) : (
                   <button id="Login-button" onClick={createPlaylistButtonClick}>Add playlist to library</button> // Show this button if playlist is not added
               )}
-          
-       { <div className="gradient-background">
-            <GradientBackground/>
-              </div> }
+              <ParticlesApp/>
+          <div className="About-footer">
+                  <img className = "spotifylogo" src = {spotifylogo}></img>
+                  <p>Created by Emily Zacharias | &copy; 2024</p>
+                </div>
       </body>
-      <footer className="app-footer">
-                <p><a href="./">home</a><br/><br/>created by <a href = "https://ezacharias.com" target="_blank">Emily Zacharias</a> | &copy; 2024</p>
-                <img className = "spotifylogo" src = {spotifylogo}></img>
-              </footer>
+      
     </div>
   );
 }
