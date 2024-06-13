@@ -25,7 +25,7 @@ function App() {
                 <Route path="/Results" element={<Results />} />
                 <Route path="/Authorize" element={<Authorize />} />
                 <Route path="/Loginfail" element={<LoginFail />} />
-                <Route path="/ResultsImage" element={<ResultsImage />} />
+                
             </Routes>
             </ErrorBoundary>
         </Router>

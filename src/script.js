@@ -12,9 +12,9 @@ const BASE_DELAY = 400; //in milliseconds
 export var profile = "";
 var recTracks = "";
 var playlistLink = "";
-var redirectURI = "http://localhost:3003/choosezodiac"
+var redirectURI = "https://emilyzacharias.github.io/horoscopify/choosezodiac"
 
-// https://emilyzacharias.github.io/horoscopify/choosezodiac
+// http://localhost:3003/choosezodiac 
 
 export const ZodiacAudioFeatures = {
     aries: "&target_danceability=0.9&target_energy=0.9&target_tempo=130&target_valence=0.9",
