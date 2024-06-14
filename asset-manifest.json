@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/horoscopify/static/css/main.93f5963e.css",
-    "main.js": "/horoscopify/static/js/main.c0443b71.js",
+    "main.js": "/horoscopify/static/js/main.c1a1747a.js",
     "static/js/453.e8aebf64.chunk.js": "/horoscopify/static/js/453.e8aebf64.chunk.js",
     "static/media/spotifylogo.png": "/horoscopify/static/media/spotifylogo.32f0d3bc0bd04f9816bd.png",
     "static/media/Perandory-Regular.otf": "/horoscopify/static/media/Perandory-Regular.41228d4e342e171b2f31.otf",
@@ -27,11 +27,11 @@
     "static/media/star1.svg": "/horoscopify/static/media/star1.b510571dff6c13f4b9cf717640db8d7a.svg",
     "static/media/star2.svg": "/horoscopify/static/media/star2.750b4699309f797356b301f1175ef81c.svg",
     "main.93f5963e.css.map": "/horoscopify/static/css/main.93f5963e.css.map",
-    "main.c0443b71.js.map": "/horoscopify/static/js/main.c0443b71.js.map",
+    "main.c1a1747a.js.map": "/horoscopify/static/js/main.c1a1747a.js.map",
     "453.e8aebf64.chunk.js.map": "/horoscopify/static/js/453.e8aebf64.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.93f5963e.css",
-    "static/js/main.c0443b71.js"
+    "static/js/main.c1a1747a.js"
   ]
 }
